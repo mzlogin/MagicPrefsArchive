@@ -508,9 +508,6 @@
     // Add Separator
     [menu addItem:[NSMenuItem separatorItem]];
     
-    menuItem = [menu addItemWithTitle:@"Update Check" action:@selector(checkUpdate:) keyEquivalent:@""];
-    [menuItem setTarget:self];
-    
     menuItem = [menu addItemWithTitle:@"About" action:@selector(showAbout:) keyEquivalent:@""];
     NSString *toolTip = [NSString stringWithFormat:@"%@(%@)",[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"],[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"]];
     [menuItem setToolTip:toolTip];

@@ -104,21 +104,6 @@
     //alloc defaults
     defaults = [NSUserDefaults standardUserDefaults];
     
-    //
-    ////check for framework, never runs as dyld crashes on load when not finding framework even tho it is a weak link
-    //
-    BOOL multitouchPresent =
-        [[NSFileManager defaultManager] fileExistsAtPath:@"/System/Library/PrivateFrameworks/MultitouchSupport.framework/Versions/A/MultitouchSupport"] ||
-        [[NSFileManager defaultManager] fileExistsAtPath:@"/System/Library/PrivateFrameworks/MultitouchSupport.framework/MultitouchSupport"] ||
-        [[NSFileManager defaultManager] fileExistsAtPath:@"/System/Library/PrivateFrameworks/MultitouchSupport.framework/Versions/Current/MultitouchSupport"];
-    if (!multitouchPresent) {
-        [alertButton setTitle:@"OK"];
-        [alertMainText setTitleWithMnemonic:@"Multitouch driver missing"];
-        [alertSmallText setTitleWithMnemonic:@"You need to upgrade to OSX 10.6.2+ or manually install the Wireless Mouse Update/Magic Trackpad MultiTouch Update"];
-        [alertWindow makeKeyAndOrderFront:nil];
-        [NSApp arrangeInFront:alertWindow];
-    }
-    
     //remove login item if service exists
     NSString *plist = [@"~/Library/LaunchAgents/com.vladalexa.MagicPrefs.plist" stringByExpandingTildeInPath];
     if ([[NSFileManager defaultManager] fileExistsAtPath:plist]) [self removeLoginItem];
@@ -279,24 +264,40 @@
     NSLog(@"%@",[self driverVer]);
         
     //aloc events deathtrap last
-
+    
     // Check Accessibility permission (required for CGEventTap and CGEventPost)
-    NSLog(@"AXIsProcessTrusted: %d", AXIsProcessTrusted());
+    if (!AXIsProcessTrustedWithOptions((__bridge CFDictionaryRef)@{(__bridge NSString *)kAXTrustedCheckOptionPrompt: @YES})) {
+        NSLog(@"MagicPrefs needs Accessibility permission to function. Please grant it in System Settings > Privacy & Security > Accessibility.");
+    }
+    //aloc events deathtrap last
+    
+    // Check Accessibility permission (required for CGEventTap and CGEventPost)
     if (!AXIsProcessTrusted()) {
         NSLog(@"MagicPrefs needs Accessibility permission. Opening System Settings...");
+        // Prompt the system dialog
         AXIsProcessTrustedWithOptions((__bridge CFDictionaryRef)@{(__bridge NSString *)kAXTrustedCheckOptionPrompt: @YES});
+        // Also open the Accessibility pane directly
         [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibility"]];
-        [NSApp setActivationPolicy:NSApplicationActivationPolicyRegular];
-        [NSApp activateIgnoringOtherApps:YES];
-        NSAlert *alert = [[NSAlert alloc] init];
-        [alert setMessageText:@"Accessibility Permission Required"];
-        [alert setInformativeText:@"MagicPrefs needs Accessibility access to intercept tap gestures on your Magic Mouse.\n\nPlease:\n1. In the System Settings window that just opened, find Accessibility\n2. Click the + button and add MagicPrefs\n3. Enable it\n4. Then quit and relaunch MagicPrefs"];
-        [alert addButtonWithTitle:@"OK"];
-        [alert runModal];
-        [alert release];
-        [NSApp setActivationPolicy:NSApplicationActivationPolicyAccessory];
     }
-
+    
+    
+    // Check Accessibility permission (required for CGEventTap and CGEventPost)
+    if (!AXIsProcessTrustedWithOptions((__bridge CFDictionaryRef)@{(__bridge NSString *)kAXTrustedCheckOptionPrompt: @YES})) {
+        NSLog(@"MagicPrefs needs Accessibility permission to function. Please grant it in System Settings > Privacy & Security > Accessibility.");
+    }
+    
+    
+    // Check Accessibility permission (required for CGEventTap and CGEventPost)
+    if (!AXIsProcessTrustedWithOptions((__bridge CFDictionaryRef)@{(__bridge NSString *)kAXTrustedCheckOptionPrompt: @YES})) {
+        NSLog(@"MagicPrefs needs Accessibility permission to function. Please grant it in System Settings > Privacy & Security > Accessibility.");
+    }
+    
+    
+    // Check Accessibility permission (required for CGEventTap and CGEventPost)
+    if (!AXIsProcessTrustedWithOptions((__bridge CFDictionaryRef)@{(__bridge NSString *)kAXTrustedCheckOptionPrompt: @YES})) {
+        NSLog(@"MagicPrefs needs Accessibility permission to function. Please grant it in System Settings > Privacy & Security > Accessibility.");
+    }
+    
     events = [[Events alloc] init];
     
     //print my version
