@@ -403,7 +403,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.vladalexa.MagicPrefs;
 				PRODUCT_NAME = MagicPrefs;
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				VALID_ARCHS = x86_64;
+				ARCHS = "$(ARCHS_STANDARD)";
 			};
 			name = Debug;
 		};
@@ -438,7 +438,7 @@
 				PRODUCT_NAME = MagicPrefs;
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				VALID_ARCHS = x86_64;
+				ARCHS = "$(ARCHS_STANDARD)";
 			};
 			name = Release;
 		};

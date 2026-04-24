@@ -118,33 +118,7 @@
     NSString *plist = [@"~/Library/LaunchAgents/com.vladalexa.MagicPrefs.plist" stringByExpandingTildeInPath];
     if ([[NSFileManager defaultManager] fileExistsAtPath:plist]) [self removeLoginItem];
 
-    //
-    ////move magicprefs to /Applications if it resides elsewhere
-    //
-    if (![[self getBIDOfParent] isEqualToString:@"com.apple.dt.Xcode"]) {
-        //do not move it if we launch it with xcode
-        NSString *wantedPath = @"/Applications/MagicPrefs.app";
-        NSString *appPath = [[NSBundle mainBundle] bundlePath];
-        if ([appPath pathComponents] > 0){
-            if (![[[appPath pathComponents] objectAtIndex:1] isEqualToString:@"Applications"]) {
-                if ([defaults boolForKey:@"noAppRelocation"] != YES) {
-                    if ([self movedHelper:appPath moveTo:wantedPath] == YES) {
-                        [self growlNotif:@"Application relocated" message:@"MagicPrefs was moved to /Applications"];
-                        [NSTask launchedTaskWithLaunchPath:@"/Applications/MagicPrefs.app/Contents/MacOS/MagicPrefs" arguments:[NSArray array]];
-                        [NSApp terminate:self];
-                    }
-                }
-            }
-        }else{
-            NSLog(@"Failed to determine path for self");
-        }
-    }
-        
-    //
-    ////copy pref pane from bundle on every run
-    //
-    
-    [self copyPrefPane:@"MagicPrefs.prefPane"];
+    // Auto-relocation and prefPane installation removed.
             
     
     //
