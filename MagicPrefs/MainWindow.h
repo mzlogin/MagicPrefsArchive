@@ -8,27 +8,25 @@
 
 #import <Cocoa/Cocoa.h>
 #import <Carbon/Carbon.h>
-#import <Sparkle/Sparkle.h>
 #import "SpeedInterface.h"
 #import "MenuBar.h"
 #import "Events.h"
 
 @interface MainWindow : NSObject <NSApplicationDelegate> {
-	IBOutlet SUUpdater *updater;	
-	Events *events;
-	NSUserDefaults *defaults;
-	IBOutlet NSWindow *aboutWindow;
-	IBOutlet NSWindow *alertWindow;
-	IBOutlet NSWindow *welcomeWindow;
-	IBOutlet NSWindow *notifWindow;	
-	IBOutlet NSButton *alertButton;	
-	IBOutlet NSTextField *alertMainText;
-	IBOutlet NSTextField *alertSmallText;
-	IBOutlet NSTextField *notifText;
-	IBOutlet NSImageView *notifImage;
-	IBOutlet NSImageView *notifDisabled;
-	BOOL savedMouseTracking;
-	BOOL savedTrackpadTracking;	
+    Events *events;
+    NSUserDefaults *defaults;
+    IBOutlet NSWindow *aboutWindow;
+    IBOutlet NSWindow *alertWindow;
+    IBOutlet NSWindow *welcomeWindow;
+    IBOutlet NSWindow *notifWindow;
+    IBOutlet NSButton *alertButton;
+    IBOutlet NSTextField *alertMainText;
+    IBOutlet NSTextField *alertSmallText;
+    IBOutlet NSTextField *notifText;
+    IBOutlet NSImageView *notifImage;
+    IBOutlet NSImageView *notifDisabled;
+    BOOL savedMouseTracking;
+    BOOL savedTrackpadTracking;
     NSImage *dockIconImage;
 }
 

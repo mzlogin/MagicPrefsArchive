@@ -8,17 +8,14 @@
 
 #import <Cocoa/Cocoa.h>
 #import <PreferencePanes/PreferencePanes.h>
-#import <Sparkle/Sparkle.h>
-
-@interface MenuBar : NSObject <NSMenuDelegate> {	
-	
-	NSUserDefaults *defaults;
-	IBOutlet SUUpdater *updater;
-    CFTimeInterval lastRefresh;    
-	
+@interface MenuBar : NSObject <NSMenuDelegate> {
+    
+    NSUserDefaults *defaults;
+    CFTimeInterval lastRefresh;
+    
 @private
-	NSStatusItem *_statusItem;	
-	
+    NSStatusItem *_statusItem;
+    
 }
 
 -(void)loadIcon;
@@ -30,10 +27,10 @@
 - (NSMenu *)newPluginsMenu;
 - (NSMenu *)newStatsMenu;
 -(void)makeStatsSubmenu:(NSMenu*)subMenu device:(NSString*)device name:(NSString*)name;
-- (void) togMenuBar:(id)sender;	
+- (void) togMenuBar:(id)sender;
 - (void) togCtrlZoom:(id)sender;
-- (void) togEnabled:(id)sender;		
-- (void) togAutostart:(id)sender;	
+- (void) togEnabled:(id)sender;
+- (void) togAutostart:(id)sender;
 - (void) togStatistics:(id)sender;
 - (void) togOSXGestures:(id)sender;
 -(NSString*)humanizeCount:(NSString*)count;
