@@ -7,6 +7,7 @@
 //
 
 #import "MainWindow.h"
+#import <ApplicationServices/ApplicationServices.h>
 
 @implementation MainWindow
 
@@ -118,7 +119,8 @@
     NSString *plist = [@"~/Library/LaunchAgents/com.vladalexa.MagicPrefs.plist" stringByExpandingTildeInPath];
     if ([[NSFileManager defaultManager] fileExistsAtPath:plist]) [self removeLoginItem];
 
-    // Auto-relocation and prefPane installation removed.
+    // Auto-relocation removed. Copy prefPane from bundle on every run.
+    [self copyPrefPane:@"MagicPrefs.prefPane"];
             
     
     //
@@ -273,6 +275,22 @@
     NSLog(@"%@",[self driverVer]);
         
     //aloc events deathtrap last
+    
+    // Check Accessibility permission (required for CGEventTap and CGEventPost)
+    if (!AXIsProcessTrustedWithOptions((__bridge CFDictionaryRef)@{(__bridge NSString *)kAXTrustedCheckOptionPrompt: @YES})) {
+        NSLog(@"MagicPrefs needs Accessibility permission to function. Please grant it in System Settings > Privacy & Security > Accessibility.");
+    }
+    //aloc events deathtrap last
+    
+    // Check Accessibility permission (required for CGEventTap and CGEventPost)
+    if (!AXIsProcessTrusted()) {
+        NSLog(@"MagicPrefs needs Accessibility permission. Opening System Settings...");
+        // Prompt the system dialog
+        AXIsProcessTrustedWithOptions((__bridge CFDictionaryRef)@{(__bridge NSString *)kAXTrustedCheckOptionPrompt: @YES});
+        // Also open the Accessibility pane directly
+        [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibility"]];
+    }
+    
     events = [[Events alloc] init];
     
     //print my version

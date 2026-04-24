@@ -2,6 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSAccessibilityUsageDescription</key>
+	<string>MagicPrefs requires Accessibility access to intercept and remap mouse and trackpad gestures.</string>
+	<key>NSAppleEventsUsageDescription</key>
+	<string>MagicPrefs uses Apple Events to interact with other applications for gesture actions.</string>
 	<key>NSBluetoothAlwaysUsageDescription</key>
 	<string>MagicPrefs uses Bluetooth to detect and configure Magic Mouse and Magic Trackpad devices.</string>
 	<key>NSBluetoothPeripheralUsageDescription</key>

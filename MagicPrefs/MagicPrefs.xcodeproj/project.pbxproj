@@ -45,6 +45,7 @@
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+		AABBCC001234ABCE /* MagicPrefs.prefPane in Resources */ = {isa = PBXBuildFile; fileRef = AABBCC001234ABCD /* MagicPrefs.prefPane */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -112,6 +113,7 @@
 		4AFAF72B10CD24D200ABA7C4 /* presets.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = presets.plist; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* MagicPrefs-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "MagicPrefs-Info.plist"; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* MagicPrefs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MagicPrefs.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		AABBCC001234ABCD /* MagicPrefs.prefPane */ = {isa = PBXFileReference; lastKnownFileType = wrapper.cfbundle; name = "MagicPrefs.prefPane"; path = "MagicPrefs.prefPane"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -226,6 +228,7 @@
 				4A91EB0F10BAF7E300921E71 /* mbar.png */,
 				4AFAF72B10CD24D200ABA7C4 /* presets.plist */,
 				4A91EB0D10BAF7DC00921E71 /* icon.icns */,
+				AABBCC001234ABCD /* MagicPrefs.prefPane */,
 				8D1107310486CEB800E47090 /* MagicPrefs-Info.plist */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
 				4A519A0810E7517C00C4C0F1 /* Main.xib */,
@@ -313,6 +316,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AABBCC001234ABCE /* MagicPrefs.prefPane in Resources */,
 				8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */,
 				4A91EB0E10BAF7DC00921E71 /* icon.icns in Resources */,
 				4A91EB1010BAF7E300921E71 /* mbar.png in Resources */,
