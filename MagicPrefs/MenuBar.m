@@ -66,14 +66,14 @@
             [self setBatteryIcon:@"crit"];
         }
         if ([[notif object] isEqualToString:@"IconOFF"]){
-            [_statusItem setImage:[NSImage imageNamed:@"mbar_off"]];
+            [_statusItem setImage:[self templateImageNamed:@"mbar_off"]];
             [_statusItem setTitle:@""];
             NSDockTile *tile = [[NSApplication sharedApplication] dockTile];
             [tile setBadgeLabel:@"off"];
         }
         if ([[notif object] isEqualToString:@"IconON"]){
-            [_statusItem setImage:[NSImage imageNamed:@"mbar"]];
-            [_statusItem setAlternateImage:[NSImage imageNamed:@"mbar_"]];
+            [_statusItem setImage:[self templateImageNamed:@"mbar"]];
+            [_statusItem setAlternateImage:[self templateImageNamed:@"mbar_"]];
             [_statusItem setToolTip:@"MagicPrefs"];
             [self setBatteryIcon:[defaults objectForKey:@"menubarIcon"]];
             [_statusItem setTitle:@""];
@@ -81,19 +81,19 @@
             [tile setBadgeLabel:@"on"];
         }
         if ([[notif object] isEqualToString:@"IconERR"]){
-            [_statusItem setImage:[NSImage imageNamed:@"mbar_err"]];
+            [_statusItem setImage:[self templateImageNamed:@"mbar_err"]];
             [_statusItem setTitle:@""];
             NSDockTile *tile = [[NSApplication sharedApplication] dockTile];
             [tile setBadgeLabel:@"err"];
         }
         if ([[notif object] isEqualToString:@"IconZZ"]){
-            [_statusItem setImage:[NSImage imageNamed:@"mbar_sleep"]];
+            [_statusItem setImage:[self templateImageNamed:@"mbar_sleep"]];
             [_statusItem setTitle:@""];
             NSDockTile *tile = [[NSApplication sharedApplication] dockTile];
             [tile setBadgeLabel:@"zzZ"];
         }
         if ([[notif object] isEqualToString:@"IconDIM"]){
-            [_statusItem setImage:[NSImage imageNamed:@"mbar_dim"]];
+            [_statusItem setImage:[self templateImageNamed:@"mbar_dim"]];
             [_statusItem setTitle:@""];
             NSDockTile *tile = [[NSApplication sharedApplication] dockTile];
             [tile setBadgeLabel:@"offsync"];
@@ -287,14 +287,14 @@
         //NSLog(@"setting 'isDisabled' FALSE");
         [defaults setBool:NO forKey:@"isDisabled"];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"MPcoreMainEvent" object:@"SyncSpeed" userInfo:nil];
-        [_statusItem setImage:[NSImage imageNamed:@"mbar"]];
+        [_statusItem setImage:[self templateImageNamed:@"mbar"]];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"MPcoreEventsEvent" object:@"Enable" userInfo:nil];
         [[NSDistributedNotificationCenter defaultCenter] postNotificationName:@"MPprefpaneImgEvent" object:@"remote" userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"default.png",@"back",@"hover",@"what",nil]];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"MPcoreMainEvent" object:@"local" userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"doNotif",@"what",@"square",@"image",@"MagicPrefs enabled",@"text",nil]];
     }else{
         //NSLog(@"setting 'isDisabled' TRUE");
         [defaults setBool:YES forKey:@"isDisabled"];
-        [_statusItem setImage:[NSImage imageNamed:@"mbar_off"]];
+        [_statusItem setImage:[self templateImageNamed:@"mbar_off"]];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"MPcoreMainEvent" object:@"RestoreMouseSpeed" userInfo:nil];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"MPcoreMainEvent" object:@"RestoreTrackpadSpeed" userInfo:nil];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"MPcoreEventsEvent" object:@"Disable" userInfo:nil];
@@ -374,13 +374,51 @@
 
 # pragma mark functions
 
+- (NSImage *)sfSymbol:(NSString *)symbolName fallback:(NSString *)fallbackName {
+    if (@available(macOS 11.0, *)) {
+        NSImageSymbolConfiguration *cfg = [NSImageSymbolConfiguration configurationWithPointSize:16 weight:NSFontWeightRegular scale:NSImageSymbolScaleMedium];
+        NSImage *img = [NSImage imageWithSystemSymbolName:symbolName accessibilityDescription:nil];
+        img = [img imageWithSymbolConfiguration:cfg];
+        [img setTemplate:YES];
+        return img;
+    }
+    NSImage *img = [NSImage imageNamed:fallbackName];
+    [img setTemplate:YES];
+    return img;
+}
+
+// 各状态对应的 SF Symbol
+- (NSImage *)mbarImageForState:(NSString *)state {
+    // state: on / off / err / sleep / dim / alt
+    if ([state isEqualToString:@"on"])    return [self sfSymbol:@"computermouse.fill"       fallback:@"mbar"];
+    if ([state isEqualToString:@"alt"])   return [self sfSymbol:@"computermouse.fill"       fallback:@"mbar_"];
+    if ([state isEqualToString:@"off"])   return [self sfSymbol:@"computermouse"            fallback:@"mbar_off"];
+    if ([state isEqualToString:@"err"])   return [self sfSymbol:@"exclamationmark.triangle.fill" fallback:@"mbar_err"];
+    if ([state isEqualToString:@"sleep"]) return [self sfSymbol:@"moon.zzz.fill"            fallback:@"mbar_sleep"];
+    if ([state isEqualToString:@"dim"])   return [self sfSymbol:@"computermouse"            fallback:@"mbar_dim"];
+    return [self sfSymbol:@"computermouse.fill" fallback:@"mbar"];
+}
+
+- (NSImage *)templateImageNamed:(NSString *)name {
+    // 将旧的 imageNamed 调用映射到 SF Symbols
+    if ([name isEqualToString:@"mbar"])       return [self mbarImageForState:@"on"];
+    if ([name isEqualToString:@"mbar_"])      return [self mbarImageForState:@"alt"];
+    if ([name isEqualToString:@"mbar_off"])   return [self mbarImageForState:@"off"];
+    if ([name isEqualToString:@"mbar_err"])   return [self mbarImageForState:@"err"];
+    if ([name isEqualToString:@"mbar_sleep"]) return [self mbarImageForState:@"sleep"];
+    if ([name isEqualToString:@"mbar_dim"])   return [self mbarImageForState:@"dim"];
+    NSImage *img = [NSImage imageNamed:name];
+    [img setTemplate:YES];
+    return img;
+}
+
 -(void)loadIcon{
     //init icon
     _statusItem = [[[NSStatusBar systemStatusBar] statusItemWithLength:NSSquareStatusItemLength] retain];
     [_statusItem setHighlightMode:YES];
     [_statusItem setToolTip:@"MagicPrefs"];
-    [_statusItem setImage:[NSImage imageNamed:@"mbar_off"]];
-    [_statusItem setAlternateImage:[NSImage imageNamed:@"mbar_"]];
+    [_statusItem setImage:[self mbarImageForState:@"off"]];
+    [_statusItem setAlternateImage:[self mbarImageForState:@"alt"]];
     [_statusItem setDoubleAction:@selector(openPrefs:)]; //ignored if there is a menu
     [_statusItem setTarget:self];
 }
